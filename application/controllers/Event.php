@@ -53,12 +53,43 @@ class Event extends CI_Controller
         $this->load->view('view_table', $events);
     }
 
-    public function edit_events()
+    public function edit_event()
     {
         $id = $this->input->get('id');
 
         $this->load->model('Event_model');
-        $data['event'] = $this->Event_model->get_event_by_id($id);
-        $this->load->view('edit_event', $data);
+        $data = $this->Event_model->get_event_by_id($id);
+
+        $this->load->view('edit_event', ['data' => $data]);
     }
-}
+
+    public function updateEvent()
+    {
+        $id = $this->input->post('id');
+        $date = $this->input->post('date');
+        $title = $this->input->post('title');
+        $description = $this->input->post('description');
+
+        $updatedData = array(
+            'date' => $date,
+            'title' => $title,
+            'description' => $description
+        );
+
+        $updRes = $this->Event_model->updateEvent($id, $updatedData);
+
+        if ($updRes) {
+            redirect(base_url('Event/get_events'));
+        }
+    }
+
+    public function softdelEvent()
+    {
+        $id = $this->input->post('id');
+
+        $updData = array('status' => 1);
+
+        $res = $this->Event_model->delete_event($id, $updData);
+        var_dump($res);
+    }
+};

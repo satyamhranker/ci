@@ -1,3 +1,6 @@
+<?php
+$event = $data[0];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,25 +16,31 @@
 <body class="bg-dark text-light">
 
     <div class="container mt-5">
-        <a type="button" href="<?= base_url('index.php/Event/View') ?>" class="btn btn-primary float-end">View Table</a>
+        <a type="button" href="<?= base_url('index.php/Event/get_events') ?>" class="btn btn-primary float-end">View Table</a>
         <h1 class="text-center">Edit Event</h1>
         <div id="message" class="alert d-none"></div>
 
         <!-- Event Form -->
         <form id="eventForm">
+            <input type="hidden" name="editedid" id="editedid" value="<?= $event['id']; ?>">
             <div class="mb-3">
                 <label for="date" class="form-label">Date</label>
-                <input type="date" class="form-control" id="date" name="date" required>
+                <input type="date" class="form-control" id="date" name="date" required value="<?= $event['date']; ?>">
             </div>
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Event Title" required>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Event Title" required value="<?= $event['title']; ?>">
             </div>
             <div class="mb-3">
+                <?php
+                $desc = $event['description'];
+                ?>
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Event Description" required></textarea>
+                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Event Description" required>
+                   <?= $desc; ?>
+                </textarea>
             </div>
-            <button type="button" id="saveEvent" class="btn btn-primary">Save Event</button>
+            <button type="button" id="updateEvent" class="btn btn-primary">Save Event</button>
         </form>
     </div>
 
@@ -41,9 +50,10 @@
     <script>
         $(document).ready(function() {
             // Handle the Save button click
-            $('#saveEvent').on('click', function() {
+            $('#updateEvent').on('click', function() {
                 // Collect form data
                 var formData = {
+                    id: $("#editedid").val(),
                     date: $('#date').val(),
                     title: $('#title').val(),
                     description: $('#description').val()
@@ -51,7 +61,7 @@
 
                 // Make the AJAX call
                 $.ajax({
-                    url: "<?= site_url('index.php/Event/save'); ?>",
+                    url: "<?= site_url('index.php/Event/updateEvent'); ?>",
                     type: "POST",
                     data: formData,
                     dataType: "json",
@@ -70,6 +80,7 @@
                     }
                 });
             });
+
         });
     </script>
 

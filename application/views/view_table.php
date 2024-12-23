@@ -40,7 +40,7 @@
                             <td><?= htmlspecialchars($event['title'], ENT_QUOTES, 'UTF-8') ?></td>
                             <td><?= htmlspecialchars($event['description'], ENT_QUOTES, 'UTF-8') ?></td>
                             <td><a class="btn btn-warning float-end" href="<?= base_url('index.php/Event/edit_event?id=' . $event['id']); ?>">Update</a></td>
-                            <td><a class="btn btn-danger float-end" href="<?= base_url('index.php/Event/delete_event?id=' . $event['id']); ?>">Delete</a></td>
+                            <td><a class="btn btn-danger float-end" class="deleteEvent" data-id="<?= $event['id']; ?>">Delete</a></td>
                         </tr>
                     <?php
 
@@ -60,7 +60,25 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+        $('.deleteEvent').on('click', function() {
 
+            var id = $('#deleteEvent').data('id');;
+
+            $.ajax({
+                url: "<?= site_url('index.php/Event/softdelEvent'); ?>",
+                type: "POST",
+                data: id,
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(res) {
+                    console.error(res);
+                }
+            });
+        })
+    </script>
 </body>
 
 </html>

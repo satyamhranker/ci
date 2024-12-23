@@ -13,7 +13,7 @@
 <body class="bg-dark text-light">
 
     <div class="container mt-5">
-        <a type="button" href="<?= base_url('index.php/Event/View') ?>" class="btn btn-primary float-end">View Table</a>
+        <a type="button" href="<?= base_url('index.php/Event/get_events') ?>" class="btn btn-primary float-end">View Table</a>
         <h1 class="text-center">Add Event</h1>
         <div id="message" class="alert d-none"></div>
 
